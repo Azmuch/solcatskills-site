@@ -139,7 +139,7 @@ function send(array $c): void
 $p = outside('sol-availability-cache.json');
 $c = read_cache($p);
 $age = time() - (int) ($c['checked'] ?? 0);
-$stale = $age >= (!empty($c['failed']) ? RETRY : TTL);
+$stale = $age >= (empty($c['src']) ? 60 : (!empty($c['failed']) ? RETRY : TTL));   // nothing yet: retry after a minute
 
 if (!$stale) {
     send($c);
